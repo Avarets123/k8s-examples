@@ -1,0 +1,5 @@
+name: web-app
+image:
+  name: nginx
+  tag: latest
+replicas: 2

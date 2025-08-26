@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-test
+spec:
+  jobTemplate:
+    metadata:
+      name: job-test2
+    spec:
+      template:
+        metadata:
+          name: job-test2-pod
+        spec:
+          containers:
+            - name: job-test2
+              image: nginx
+          restartPolicy: Never
+      completions: 3
+      parallelism: 2
+      backoffLimit: 10
+  schedule: "*/1 * * * *"
+  # Как поступить если до завершения одной джобы наступило время запуска еще одной джобы
+  # Forbid - джоба не запустится до завершения предыдущей.
+  # Allow - джоба  запустится до завершения предыдущей
+  # Replace - вторая джоба заменит предыдущий
+  concurrencyPolicy: Forbid
+  # Время для запуска джобы 
+  startingDeadlineSeconds: 25

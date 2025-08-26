@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-load-balancer-service
+spec:
+  type: LoadBalancer
+  externalIPs:
+    - 85.198.82.43
+    
+  ports:
+   - name: http
+     port: 80
+     targetPort: 80
+   - name: https
+     port: 443
+     targetPort: 443
+  selector:
+    app: frontend
+    

@@ -1,0 +1,13 @@
+# kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-test1
+spec:
+  accessModes:
+    - ReadWriteOncePod
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi

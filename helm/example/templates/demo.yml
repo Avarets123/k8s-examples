@@ -1,0 +1,41 @@
+{{- define "test.tmp" }}
+    name: test-define
+    labels:
+        date: {{ now | htmlDate }}
+        app: test-define
+{{- end }}
+
+    
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    {{- template "test.tmp" .                                               }}
+    # name: test-config-map
+    # labels:
+    #     {{- include "chart.labels" . | indent 4 }}
+data:
+    releaseName: {{ .Release.Name | upper | quote }}
+    version: {{ "check" | upper }}
+    date: {{ now }}
+    {{- if eq .Values.env "production"}}
+    paymentToken: dsfsdfsd
+    {{- else }}
+    paymentToken: dsfasvxc12231232
+    {{- include "chart.labels" . | indent 2 }}
+    {{- end }}
+    {{- with .Values.app.limits }}
+    memory: {{ .memory }}
+    cpu: {{ .cpu }}
+    version: {{ $.Release.Name }}
+    {{- end }}
+    {{- $map := .Release.Name | upper | quote }}
+    map: {{ $map }}
+    users:
+    {{- range .Values.users }}
+     - {{ .name }}: {{ .role }}
+    {{- end }}
+    list: 
+    {{- range tuple "Anton" "Vasia" }}
+     - {{ . }}
+    {{- end }}

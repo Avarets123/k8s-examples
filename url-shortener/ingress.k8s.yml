@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    metallb.universe.tf/address-pool: public-ips
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - tk8s.ru
+  rules:
+    - host: tk8s.ru
+      http:
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+            backend:
+              service:
+                name: frontend-service
+                port: 
+                  number: 80

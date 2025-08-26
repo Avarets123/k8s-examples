@@ -1,0 +1,20 @@
+# Роль в рамках кластера для noNamespaced ресурсам
+# Также можно указать роль и пермишены в рамках всего кластера
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-developer
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "deployments"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]
+    resourceNames:
+      - "db-pod"
+      - "redis-pod"
+  - apiGroups:
+      - ""  
+    resources:
+      - "secrets"
+    verbs:
+      - "*"
+

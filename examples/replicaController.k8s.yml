@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: ReplicationController
+metadata:
+  name: re-controller-test
+spec:
+  template:
+    metadata:
+      name: reverse-proxy-pod
+      labels:
+        app: reverse-proxy
+    spec:
+      containers:
+        - name: reverse-proxy-cont
+          image: nginx:latest
+  replicas: 3

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: re-set-test
+  
+  labels:
+    name: re-set-test
+spec:
+  template:
+    metadata:
+      name: reverse-proxy-pod
+    spec:
+      containers:
+        - name: reverse-proxy-cont
+          image: nginx:latest
+  replicas: 3
+  selector:
+    matchLabels:
+      name: reverse-proxy-pod
+    # name: reverse-proxy-pod

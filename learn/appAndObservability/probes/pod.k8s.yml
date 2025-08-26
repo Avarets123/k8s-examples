@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-probes-pod
+spec:
+  containers:
+    - name: test-probes-pod
+      image: rotorocloud/simple-webapp-rockets
+      # Выполняется до одного успеха, выполняется до риднессПроб, 
+      startupProbe:
+        initialDelaySeconds: 10
+        httpGet:
+          port: 3000
+          host: /
+        failureThreshold: 5
+      readinessProbe:
+        initialDelaySeconds: 10
+        tcpSocket:
+          port: 3000
+        periodSeconds: 10

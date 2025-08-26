@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-upgrade-backup
+  annotations:
+    # Определяет когда хук будет выполнен
+    helm.sh/hook: pre-upgrade
+    # Определяет приоритет хука, чем меньше число тем раньше хук будет выполнен 
+    helm.sh/hook-weight: "4"
+    # Определяет когда данный ресурс (хук) будет удален из кластера 
+    helm.sh/hook-delete-policy: hook-succeeded
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: {{ .Values.name }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-upgrade-backup
+      labels:
+        app.kubernetes.io/part-of: {{ .Values.name }}
+    spec:
+      containers:
+        - name: upgrade-backup
+          image: alpine
+          command: ["/bin/sh", 'echo "Backup succeeded!"']

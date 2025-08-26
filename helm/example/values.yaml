@@ -1,0 +1,21 @@
+DATABASE_URL: 123asdas
+
+
+replicasCount: 1
+
+app:
+  name: short-api
+  image: antonlarichev/short-api:latest
+  port: 3000
+  limits:
+    cpu: 200m
+    memory: 128Mi
+env: development
+
+users:
+  - name: Vasia
+    role: admin
+  - name: Anton
+    role: manager
+
+  

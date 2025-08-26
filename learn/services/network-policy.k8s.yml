@@ -1,0 +1,61 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+      # Позволяет выбрать поды от которых разрешено трафик
+        - podSelector:
+            matchLabels:
+              env: prod
+      # Позволяет выбрать неймспейс от которых разерешен трафик.
+      # Еще нужно обратить внимание на присутствие минуса (-) перед свойством, если он есть то это отдельное условие, а если нет то условние объединаяется с предыдущим
+          namespaceSelector:
+            matchLabels:
+              env: app-prod
+      
+      ports:
+        - protocol: TCP
+          port: 5432
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-policy
+spec:
+  podSelector:
+    matchLabels:
+      name: internal
+  policyTypes:
+    - Egress
+    - Ingress
+  ingress: 
+    - {}
+  egress:
+    - to:
+      - podSelector:
+          matchLabels:
+            name: mysql
+      ports:
+        - protocol: TCP
+          port: 3306
+    - to:
+      - podSelector:
+          matchLabels:
+            name: payroll
+      ports:
+        - protocol: TCP
+          port: 8080
+    - ports:
+        - port: 53
+          protocol:  UDP
+        - port: 53
+          protocol: TCP
+
+      

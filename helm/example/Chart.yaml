@@ -1,0 +1,6 @@
+apiVersion: v2
+name: short-app
+description: short
+type: application
+version: 11.3.0
+appVersion: "6.16.0"

@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-test
+spec:
+  template:
+    spec:
+      containers:
+        - name: ubuntu-math
+          image: ubuntu
+          command: ["expr", "3", "+", "5"]
+      restartPolicy: Never
+  # количество успешных выполнений
+  completions: 3
+  # количество паралельных запусков
+  parallelism: 3
+  # количество не успешных попыток чтобы джоба зафейлилaсь 
+  backoffLimit: 10
+  # он представляет собой время в секундах, после которого будут удалены и сама Job, и относящиеся к ней PODs
+  ttlSecondsAfterFinished: 100

@@ -1,0 +1,7 @@
+apiVersion: crt.io
+metadata:
+  name: custom-resource
+kind: CustomResourceTest
+spec:
+  address: dsfsaf
+  clientId: 12321

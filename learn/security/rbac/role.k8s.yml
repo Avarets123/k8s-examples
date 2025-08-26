@@ -1,0 +1,18 @@
+# Роль в рамках неймспейса
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "deployments"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]
+    resourceNames:
+      - "db-pod"
+      - "redis-pod"
+  - apiGroups:
+      - ""  
+    resources:
+      - "secrets"
+    verbs:
+      - "*"

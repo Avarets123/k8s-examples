@@ -1,0 +1,32 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: custom-resource-test
+spec:
+  scope: Namespaced
+  group: crt.io
+  names:
+    kind: CustomResourceTest
+    singular: crt
+    plural: crts
+    shortNames:
+      - crt
+  versions:
+    - name: v1
+      served: true
+      storage: true
+
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            
+            spec:
+              type: object
+              properties:
+                address:
+                  type: string
+                clientId:
+                  type: integer
+                  minimum: 1
+                  maximum: 11111111111111111

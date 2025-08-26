@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Config
+
+current-context: test-cluster-context
+
+clusters:
+  - name: some-clustername
+    cluster:
+      certificate-authority-data: certificationBase64Data
+      server: https://kube-master-node-address:port
+  - name: some-clustername2
+
+contexts:
+  - context:
+      cluster: some-clustername
+      user: kube-admin
+    name: test-cluster-context
+
+users:
+  - name: kube-admin
+    user:
+      # Везде где имеются данные в бейс64 формате, вместо них можно использовать файлы сертификатов, нужно убра суффикс -data и указать путь к сертификату
+      client-certificate-data: clientCertificatedBase64Data
+      client-key-data: clientKeyBase64Data
+  - name: kube-admin2

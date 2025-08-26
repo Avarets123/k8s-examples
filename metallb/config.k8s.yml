@@ -1,0 +1,21 @@
+# kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
+
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: config-brlb
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.10.0/24
+  autoAssign: true
+  avoidBuggyIPs: true
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advert
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - config-brlb 

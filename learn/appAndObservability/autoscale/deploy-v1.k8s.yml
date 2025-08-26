@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscale-v1-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: autoscale-v1-pod
+  template:
+    metadata:
+      labels:
+        pod: autoscale-v1-pod
+    spec:
+      containers:
+        - name: hpa-v1
+          image: mirror.gcr.io/library/nginx:1.21.5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+            limits:
+              cpu: 100m
+              memory: 200Mi
+  # strategy:
+  #   type: Recreate
