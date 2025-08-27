@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lychee-db
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+        db: mariadb
+    spec:
+      containers:
+      - name: mariadb
+        image: mariadb:10.6
+        resources: {}
+        ports:
+        - containerPort: 3306
+        envFrom:
+          - secretRef:
+              name: db-secret
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: db
+      volumes:
+        - name: db
+          emptyDir: {}
+  replicas: 1

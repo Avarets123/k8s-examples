@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lychee-gallery-service
+spec:
+  selector:
+    app: lychee-gallery
+  ports:
+  - port: 80
+  type: ClusterIP

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: bitnami/wordpress
+        volumeMounts:
+          - mountPath: /var/www/html
+            name: wordpress-persistent-storage
+        resources: {}
+        ports:
+        - containerPort: 80
+        env:
+          - name: MARIADB_HOST
+            value: wordpress-mysql
+          - name: WORDPRESS_DATABASE_NAME
+            value: challenge
+          - name: WORDPRESS_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: user-password
+                name: mysql-pass
+          - name: WORDPRESS_DATABASE_USER
+            valueFrom:
+              configMapKeyRef:
+                key: username
+                name: mysql-user
+      volumes:
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+            claimName: wordpress-persistent-storage
+
+

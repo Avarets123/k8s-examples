@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx3103
+  namespace: test2202
+spec:
+  containers:
+  - image: rotorocloud/custom-nginx
+    resources: {}
+    imagePullPolicy: IfNotPresent
+    name: nginx
+    ports:
+    - containerPort: 9009
+      protocol: TCP
+    readinessProbe:
+      httpGet:
+        path: / 
+        port: 9009
+    # будет рестартовать при провале данной команды
+    livenessProbe:
+      exec:
+        command:
+        - ls
+        - /var/www/html/file_check
+      initialDelaySeconds: 10
+      periodSeconds: 60

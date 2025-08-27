@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-netpol
+spec:
+  podSelector:
+    matchLabels:
+      db: mariadb
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              run: lychee-gallery
+      ports:
+        - port: 3306
+          protocol: TCP

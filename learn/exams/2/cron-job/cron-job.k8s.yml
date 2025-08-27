@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: random
+spec:
+  jobTemplate:
+    metadata:
+      name: job-random
+    spec:
+      backoffLimit: 25
+      completions: 1
+      template:
+        metadata:
+          name: error-gen-pod
+        spec:
+          containers:
+            - name: error-gen
+              image: rotorocloud/error-gen
+          restartPolicy: Never
+      activeDeadlineSeconds: 20
+  schedule: "* */1 * * *"
+  concurrencyPolicy: Forbid
+  

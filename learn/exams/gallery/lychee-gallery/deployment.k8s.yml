@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lychee-gallery
+spec:
+  selector:
+    matchLabels:
+      app: lychee-gallery
+  template:
+    metadata:
+      labels:
+        app: lychee-gallery
+        run: lychee-gallery
+    spec:
+      containers:
+      - name: lychee-gallery
+        image: linuxserver/lychee:4.4.0
+        resources:
+          limits:
+            memory: "100Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: lychee-settings
+        env:
+          - name: DB_HOST
+            value: lychee-db-service
+          - name: DB_PORT
+            value: '3306'
+        volumeMounts:
+          - mountPath: /config
+            name: config
+          - mountPath: /pictures
+            name: images
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: images
+          emptyDir: {}
+  replicas: 1
+

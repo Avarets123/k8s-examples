@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lychee-gallery-ingress
+  labels:
+    app.kubernetes.io/name: lychee-gallery-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: image-stock-free.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: lychee-gallery-service
+            port: 
+              number: 80
